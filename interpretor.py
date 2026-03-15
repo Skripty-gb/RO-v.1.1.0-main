@@ -41,6 +41,7 @@ def eval_expresie_matematica(expresie):
 
 def eval_conditie(cond):
     cond = cond.strip()
+    # Operatori logici: si, sau
     if " sau " in cond:
         parti = cond.split(" sau ", 1)
         return eval_conditie(parti[0]) or eval_conditie(parti[1])
@@ -289,50 +290,6 @@ def interpreteaza(linie):
                     idx = int(variabile.get(idx_str, idx_str))
                     if lista_var in variabile and isinstance(variabile[lista_var], list):
                         variabile[nume] = variabile[lista_var][idx]
-                elif valoare.startswith("sterge(") and valoare.endswith(")"):
-                    args = valoare[7:-1].split(",", 1)
-                    lv = args[0].strip()
-                    idx = int(variabile.get(args[1].strip(), args[1].strip()))
-                    if lv in variabile and isinstance(variabile[lv], list):
-                        variabile[lv].pop(idx)
-                    variabile[nume] = variabile.get(lv, [])
-                elif valoare.startswith("imparte(") and valoare.endswith(")"):
-                    args = valoare[8:-1].split(",", 1)
-                    src = str(variabile.get(args[0].strip(), args[0].strip().strip('"')))
-                    sep = args[1].strip().strip('"') if len(args) > 1 else " "
-                    variabile[nume] = src.split(sep)
-                elif valoare.startswith("inlocuieste(") and valoare.endswith(")"):
-                    args = valoare[12:-1].split(",", 2)
-                    src = str(variabile.get(args[0].strip(), args[0].strip().strip('"')))
-                    vechi = args[1].strip().strip('"')
-                    nou = args[2].strip().strip('"') if len(args) > 2 else ""
-                    variabile[nume] = src.replace(vechi, nou)
-                elif valoare.startswith("tip(") and valoare.endswith(")"):
-                    arg = valoare[4:-1].strip()
-                    arg_val = variabile.get(arg, arg)
-                    if isinstance(arg_val, list):
-                        variabile[nume] = "lista"
-                    elif isinstance(arg_val, (int, float)):
-                        variabile[nume] = "numar"
-                    else:
-                        try:
-                            float(str(arg_val))
-                            variabile[nume] = "numar"
-                        except:
-                            variabile[nume] = "text"
-                elif valoare.startswith("exista_fisier(") and valoare.endswith(")"):
-                    cale = valoare[14:-1].strip().strip('"')
-                    cale = variabile.get(cale, cale)
-                    variabile[nume] = "da" if os.path.exists(str(cale)) else "nu"
-                elif valoare.startswith("ruleaza(") and valoare.endswith(")"):
-                    cmd = valoare[8:-1].strip().strip('"')
-                    cmd = variabile.get(cmd, cmd)
-                    import subprocess
-                    try:
-                        rez = subprocess.run(str(cmd), shell=True, capture_output=True, text=True)
-                        variabile[nume] = rez.stdout.strip()
-                    except Exception as e:
-                        variabile[nume] = f"EROARE: {e}"
                 elif "(" in valoare and valoare.endswith(")"):
                     nume_f = valoare.split("(", 1)[0].strip()
                     args_str = valoare.split("(", 1)[1][:-1]
@@ -467,33 +424,6 @@ def interpreteaza(linie):
                 variabile[nume] = src[start:end]
 
     # ============ INCLUDE ============
-    elif linie.startswith("sterge_fisier "):
-        cale = linie[14:].strip().strip('"')
-        cale = variabile.get(cale, cale)
-        try:
-            os.remove(str(cale))
-            print(f"Fisier '{cale}' sters!")
-        except Exception as e:
-            print(f"EROARE sterge_fisier: {e}")
-    elif linie.startswith("redenumeste_fisier ") and " in " in linie:
-        parti = linie[19:].strip().split(" in ", 1)
-        vechi = parti[0].strip().strip('"')
-        nou = parti[1].strip().strip('"')
-        vechi = variabile.get(vechi, vechi)
-        nou = variabile.get(nou, nou)
-        try:
-            os.rename(str(vechi), str(nou))
-            print(f"Fisier redenumit: '{vechi}' -> '{nou}'")
-        except Exception as e:
-            print(f"EROARE redenumeste_fisier: {e}")
-    elif linie.startswith("ruleaza "):
-        cmd = linie[8:].strip().strip('"')
-        cmd = variabile.get(cmd, cmd)
-        import subprocess
-        try:
-            subprocess.run(str(cmd), shell=True)
-        except Exception as e:
-            print(f"EROARE ruleaza: {e}")
     elif linie.startswith("include "):
         cale = linie[8:].strip().strip('"')
         try:
@@ -596,23 +526,6 @@ def interpreteaza(linie):
         gui_imagine(linie[8:].strip())
     elif linie.startswith("mesaj(") and linie.endswith(")"):
         gui_mesaj(linie[6:-1].strip())
-    elif linie.strip() == "separator_gui":
-        gui_separator()
-    elif linie.startswith("progres "):
-        parti = linie[8:].strip().split(" max ")
-        var_name = parti[0].strip()
-        maxim = parti[1].strip() if len(parti) > 1 else "100"
-        gui_progres(var_name, maxim)
-    elif linie.startswith("checkbox "):
-        parti = linie[9:].strip().split(" ", 1)
-        var_name = parti[0].strip()
-        label = parti[1].strip() if len(parti) > 1 else var_name
-        gui_checkbox(var_name, label)
-    elif linie.startswith("lista_dropdown "):
-        parti = linie[15:].strip().split(" optiuni ", 1)
-        var_name = parti[0].strip()
-        optiuni = parti[1].strip() if len(parti) > 1 else ""
-        gui_dropdown(var_name, optiuni)
     elif linie.strip() == "porneste":
         gui_porneste()
     elif "(" in linie and linie.endswith(")"):
@@ -661,7 +574,10 @@ def interpreteaza_bloc(linii, start_index):
         elif linie.startswith("incearca"):
             i = interpreteaza_incearca(linii, i)
         else:
-            interpreteaza(linie)
+            try:
+                interpreteaza(linie)
+            except (ReturnException, BreakException, ContinueException):
+                raise
         i += 1
     return i
 
@@ -684,6 +600,8 @@ def interpreteaza_pentru_in(linii, index):
             break
         except ContinueException:
             continue
+        except ReturnException:
+            raise
     return end_index
 
 def interpreteaza_incearca(linii, index):
@@ -729,6 +647,8 @@ def interpreteaza_cat_timp(linii, index):
             break
         except ContinueException:
             pass
+        except ReturnException:
+            raise
         limita += 1
         if limita > 10000:
             print("EROARE: Bucla infinita detectata (>10000 iteratii)")
@@ -755,6 +675,8 @@ def interpreteaza_pentru(linii, index):
             break
         except ContinueException:
             continue
+        except ReturnException:
+            raise
     return end_index
 
 def defineste_functie(linii, index):
@@ -765,10 +687,16 @@ def defineste_functie(linii, index):
     parametri = [p.strip() for p in parametri if p.strip()]
     corp = []
     i = index + 1
+    adancime = 0
     while i < len(linii):
         linie_corp = linii[i].strip()
-        if linie_corp == "stop":
-            break
+        # Blocuri care deschid un nivel nou
+        if (linie_corp.startswith("daca ") and " atunci" in linie_corp) or            (linie_corp.startswith("cat timp ") and linie_corp.endswith(" executa")) or            (linie_corp.startswith("pentru ") and (" de la " in linie_corp or " in " in linie_corp)) or            linie_corp.startswith("incearca") or            linie_corp.startswith("functie "):
+            adancime += 1
+        elif linie_corp == "stop":
+            if adancime == 0:
+                break
+            adancime -= 1
         corp.append(linie_corp)
         i += 1
     functii[nume] = (parametri, corp)
@@ -779,6 +707,7 @@ def executa_functie(nume, args):
     if nume not in functii:
         return
     parametri, corp = functii[nume]
+    args = [a for a in args if a.strip()]
     if len(parametri) != len(args):
         return
     local_vars = {}
@@ -846,10 +775,16 @@ def interpreteaza_conditional(linii, index):
     executat = False
     for tip, conditie, bloc in conditii:
         if tip in ["daca", "altfeldaca"] and eval_conditie(conditie) and not executat:
-            interpreteaza_bloc(bloc, 0)
+            try:
+                interpreteaza_bloc(bloc, 0)
+            except (ReturnException, BreakException, ContinueException):
+                raise
             executat = True
         elif tip == "altfel" and not executat:
-            interpreteaza_bloc(bloc, 0)
+            try:
+                interpreteaza_bloc(bloc, 0)
+            except (ReturnException, BreakException, ContinueException):
+                raise
             break
     return i
 
@@ -875,7 +810,6 @@ RO-Sharp v{VERSIUNE} - Ajutor
     rop --about             Informatii despre RO-Sharp
     rop --new <fisier.rop>  Creeaza un fisier .rop nou cu exemplu
     rop --delete-rop        Dezinstaleaza RO-Sharp complet
-    rop --build <fisier.rop> Creeaza un .exe standalone
 
   Comenzi disponibile in limbaj:
     scrie "text"                Afiseaza text
@@ -963,11 +897,6 @@ if __name__ == "__main__":
             cmd_new(args[1])
     elif args[0] == "--delete-rop":
         cmd_delete_rop()
-    elif args[0] == "--build":
-        if len(args) < 2:
-            print("Utilizare: rop --build <fisier.rop>")
-        else:
-            do_build(args[1])
     elif args[0].startswith("--"):
         print(f"Comanda necunoscuta: '{args[0]}'. Scrie 'rop --help' pentru ajutor.")
     else:
