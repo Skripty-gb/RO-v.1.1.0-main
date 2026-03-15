@@ -1,0 +1,71 @@
+// ================================
+// ExempluListe.rop
+// Demonstratie liste in RO-Sharp
+// ================================
+
+## linie
+scrie "  EXEMPLE LISTE RO-Sharp"
+## linie
+scrie ""
+
+// --- Creare si adaugare ---
+scrie "1. Creare lista si adaugare"
+lista numere = []
+adauga 10 la lista numere
+adauga 20 la lista numere
+adauga 30 la lista numere
+adauga 40 la lista numere
+adauga 50 la lista numere
+scrie lista numere
+scrie ""
+
+// --- Acces dupa index ---
+scrie "2. Acces dupa index"
+seteaza primul la numere[0]
+seteaza ultimul la numere[4]
+scrie "Primul: " + primul
+scrie "Ultimul: " + ultimul
+scrie ""
+
+// --- Lungime ---
+scrie "3. Lungimea listei"
+seteaza lung la lungime(numere)
+scrie "Are " + lung + " elemente"
+scrie ""
+
+// --- Iterare ---
+scrie "4. Iterare cu pentru in"
+pentru n in numere
+    scrie "  element: " + n
+stop
+scrie ""
+
+// --- Contine ---
+scrie "5. Verifica daca contine"
+seteaza gasit la contine(numere, 30)
+scrie "Contine 30? " + gasit
+seteaza negasit la contine(numere, 99)
+scrie "Contine 99? " + negasit
+scrie ""
+
+// --- Sterge ---
+scrie "6. Sterge element"
+scrie "Inainte: "
+scrie lista numere
+seteaza _ la sterge(numere, 2)
+scrie "Dupa stergere index 2: "
+scrie lista numere
+scrie ""
+
+// --- Imparte string in lista ---
+scrie "7. Imparte string in lista"
+seteaza propozitie la "mere pere gutui cirese"
+seteaza cuvinte la imparte(propozitie, " ")
+scrie lista cuvinte
+pentru cuv in cuvinte
+    scrie "  cuvant: " + cuv
+stop
+
+## linie
+scrie "  Gata! Toate exemplele au rulat."
+## linie

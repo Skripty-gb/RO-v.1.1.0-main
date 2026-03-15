@@ -1,0 +1,55 @@
+// ================================
+// ExempluFisiere.rop
+// Demonstratie fisiere in RO-Sharp
+// ================================
+
+## linie
+scrie "  EXEMPLE FISIERE RO-Sharp"
+## linie
+scrie ""
+
+// --- Scriere ---
+scrie "1. Scriere fisier"
+scrie_fisier "test.txt" cu "Salut din RO-Sharp!"
+scrie "Fisier scris!"
+scrie ""
+
+// --- Verificare existenta ---
+scrie "2. Verifica existenta"
+seteaza ex la exista_fisier("test.txt")
+scrie "test.txt exista? " + ex
+seteaza ex2 la exista_fisier("inexistent.txt")
+scrie "inexistent.txt exista? " + ex2
+scrie ""
+
+// --- Citire ---
+scrie "3. Citire fisier"
+citeste_fisier "test.txt"
+scrie ""
+
+// --- Redenumire ---
+scrie "4. Redenumire fisier"
+redenumeste_fisier "test.txt" in "test_nou.txt"
+seteaza ex3 la exista_fisier("test_nou.txt")
+scrie "test_nou.txt exista? " + ex3
+scrie ""
+
+// --- Stergere ---
+scrie "5. Stergere fisier"
+sterge_fisier "test_nou.txt"
+seteaza ex4 la exista_fisier("test_nou.txt")
+scrie "Dupa stergere exista? " + ex4
+scrie ""
+
+// --- Scriere si citire variabila ---
+scrie "6. Salvare si citire date"
+seteaza nume la "Ion"
+seteaza varsta la 25
+seteaza continut la "Nume: " + nume
+scrie_fisier "date.txt" cu continut
+citeste_fisier "date.txt"
+sterge_fisier "date.txt"
+
+## linie
+scrie "  Gata! Toate exemplele au rulat."
+## linie

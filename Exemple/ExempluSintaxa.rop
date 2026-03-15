@@ -1,0 +1,131 @@
+// ================================
+// ExempluSintaxa.rop
+// Demonstratie sintaxa RO-Sharp
+// ================================
+
+## linie
+scrie "  EXEMPLE SINTAXA RO-Sharp"
+## linie
+
+// --- Variabile si Output ---
+scrie "1. Variabile si Output"
+seteaza nume la "Ion"
+seteaza varsta la 20
+seteaza inaltime la 1.75
+scrie "Nume: " + nume
+scrie "Varsta: " + varsta
+scrie "Inaltime: " + inaltime
+scrie ""
+
+// --- Matematica ---
+scrie "2. Matematica"
+seteaza x la 10
+seteaza y la 3
+scrie "10 + 3 = " + x + y
+seteaza suma la x + y
+seteaza diferenta la x - y
+seteaza produs la x * y
+seteaza cat la x / y
+seteaza putere la x ** 2
+scrie "Suma: " + suma
+scrie "Diferenta: " + diferenta
+scrie "Produs: " + produs
+scrie "Cat: " + cat
+scrie "Putere: " + putere
+scrie ""
+
+// --- Conditii ---
+scrie "3. Conditii"
+seteaza nota la 7
+daca nota >= 9 atunci
+    scrie "Nota: Foarte bine!"
+altfeldaca nota >= 7 atunci
+    scrie "Nota: Bine!"
+altfeldaca nota >= 5 atunci
+    scrie "Nota: Suficient"
+altfel
+    scrie "Nota: Insuficient"
+stop
+scrie ""
+
+// --- Operatori logici ---
+scrie "4. Operatori Logici"
+seteaza a la 5
+daca a > 3 si a < 10 atunci
+    scrie "a este intre 3 si 10"
+stop
+daca a == 1 sau a == 5 atunci
+    scrie "a este 1 sau 5"
+stop
+daca nu a == 99 atunci
+    scrie "a nu este 99"
+stop
+scrie ""
+
+// --- Bucle ---
+scrie "5. Bucle"
+scrie "Pentru:"
+pentru i de la 1 la 5
+    scrie "  i = " + i
+stop
+
+scrie "Cat timp:"
+seteaza n la 1
+cat timp n <= 3 executa
+    scrie "  n = " + n
+    seteaza n la n + 1
+stop
+
+scrie "Pentru in lista:"
+lista culori = []
+adauga "rosu" la lista culori
+adauga "galben" la lista culori
+adauga "albastru" la lista culori
+pentru c in culori
+    scrie "  culoare: " + c
+stop
+scrie ""
+
+// --- Functii ---
+scrie "6. Functii"
+functie salut(nume)
+    scrie "Salut, " + nume + "!"
+stop
+
+functie aduna(a, b)
+    seteaza rez la a + b
+    returneaza rez
+stop
+
+salut("Maria")
+seteaza total la aduna(15, 7)
+scrie "15 + 7 = " + total
+scrie ""
+
+// --- String-uri ---
+scrie "7. Operatii pe String-uri"
+seteaza text la "salut lume"
+seteaza mare la majuscule(text)
+seteaza mic la minuscule(mare)
+seteaza lung la lungime(text)
+seteaza taiat la taie(text, 0, 5)
+seteaza inlocuit la inlocuieste(text, "lume", "Romania")
+scrie "Original: " + text
+scrie "Majuscule: " + mare
+scrie "Minuscule: " + mic
+scrie "Lungime: " + lung
+scrie "Taiat: " + taiat
+scrie "Inlocuit: " + inlocuit
+scrie ""
+
+// --- Erori ---
+scrie "8. Gestionare Erori"
+incearca
+    seteaza nr la transforma_nr("abc")
+daca_eroare
+    scrie "Eroare prinsa: " + _eroare
+stop
+
+## linie
+scrie "  Gata! Toate exemplele au rulat."
+## linie
