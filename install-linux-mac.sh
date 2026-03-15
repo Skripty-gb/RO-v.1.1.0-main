@@ -5,7 +5,6 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 echo "Installing RO-Sharp..."
 
-# Verifica daca interpretor.py exista langa acest script
 if [ ! -f "$SCRIPT_DIR/interpretor.py" ]; then
     echo "EROARE: Nu gasesc interpretor.py langa acest script!"
     echo "Asigura-te ca install-linux-mac.sh si interpretor.py sunt in acelasi folder."
