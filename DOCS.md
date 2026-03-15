@@ -6,46 +6,11 @@
 
 ## Cuprins
 
-1. [Instalare](#instalare)
-2. [Comenzi Terminal](#comenzi-terminal)
-3. [Sintaxa Limbajului](#sintaxa-limbajului)
-4. [Functii Built-in](#functii-built-in)
-5. [GUI Tkinter](#gui-tkinter)
-6. [Exemple](#exemple)
+1. [Sintaxa Limbajului](#sintaxa-limbajului)
+2. [Functii Built-in](#functii-built-in)
+3. [GUI Tkinter](#gui-tkinter)
+4. [Exemple](#exemple)
 
----
-
-## Instalare
-
-### Windows
-Descarca `interpretor.py`, `install-windows.bat` si `ro-sharp.ico`, pune-le in acelasi folder si ruleaza `install-windows.bat` ca Administrator. Redeschide terminalul dupa instalare.
-
-### Linux / Mac
-```bash
-bash install-linux-mac.sh
-source ~/.bashrc
-```
-
-### Cerinte
-- Python 3.x
-- Pentru GUI: `sudo pacman -S tk` (Arch) sau `sudo apt install python3-tk` (Ubuntu)
-- Pentru `rop --build`: `pip install pyinstaller`
-
----
-
-## Comenzi Terminal
-
-| Comanda | Descriere |
-|---|---|
-| `rop fisier.rop` | Ruleaza un program |
-| `rop --ver` | Afiseaza versiunea |
-| `rop --help` | Afiseaza ajutorul |
-| `rop --about` | Informatii despre RO-Sharp |
-| `rop --new fisier.rop` | Creeaza un fisier nou cu template |
-| `rop --build fisier.rop` | Genereaza un `.exe` standalone |
-| `rop --delete-rop` | Dezinstaleaza RO-Sharp |
-
----
 
 ## Sintaxa Limbajului
 
