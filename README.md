@@ -14,36 +14,6 @@ stop
 
 ---
 
-## Instalare
-
-### Windows
-1. Descarca `interpretor.py`, `install-windows.bat` si `ro-sharp.ico`
-2. Pune-le in acelasi folder si ruleaza `install-windows.bat` ca Administrator
-3. Redeschide terminalul si scrie `rop --ver`
-
-### Linux / Mac
-```bash
-bash install-linux-mac.sh
-source ~/.bashrc
-rop --ver
-```
-
-> **Cerinte:** Python 3.x. Pentru GUI: `sudo pacman -S tk` (Arch) sau `sudo apt install python3-tk` (Ubuntu)
-
----
-
-## Utilizare
-
-```bash
-rop program.rop        # Ruleaza un program
-rop --new program.rop  # Creeaza un fisier nou
-rop --help             # Ajutor
-rop --build prog.rop   # Genereaza .exe (necesita PyInstaller)
-rop --delete-rop       # Dezinstaleaza
-```
-
----
-
 ## Sintaxa
 
 ### Output & Variabile
